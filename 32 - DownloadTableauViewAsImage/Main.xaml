@@ -1,0 +1,285 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="850.4,678.4" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:ubac="clr-namespace:UiPath.BAF.Activities.ContextModel;assembly=UiPath.Tableau.Activities" xmlns:ube="clr-namespace:UiPath.BAF.Enums;assembly=UiPath.Tableau" xmlns:ubme="clr-namespace:UiPath.BAF.Models.Entity;assembly=UiPath.Tableau" xmlns:ubmv="clr-namespace:UiPath.BAF.Models.Views;assembly=UiPath.Tableau" xmlns:ubt="clr-namespace:UiPath.BAF.Telemetry;assembly=UiPath.Tableau" xmlns:ucm="clr-namespace:UiPath.CodeGen.Model;assembly=UiPath.Tableau" xmlns:ucmc="clr-namespace:UiPath.CodeGen.Models.Connection;assembly=UiPath.Tableau" xmlns:usm="clr-namespace:UiPath.Swagger.Models;assembly=UiPath.Tableau" xmlns:uta="clr-namespace:UiPath.Tableau.Activities;assembly=UiPath.Tableau.Activities" xmlns:utm="clr-namespace:UiPath.Tableau.Models;assembly=UiPath.Tableau" xmlns:utmr="clr-namespace:UiPath.Tableau.Model.Response;assembly=UiPath.Tableau" xmlns:uts="clr-namespace:UiPath.Tableau.Services;assembly=UiPath.Tableau" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="76">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>UiPath.BAF.Enums</x:String>
+      <x:String>UiPath.Swagger.Models</x:String>
+      <x:String>UiPath.CodeGen.Models.Connection</x:String>
+      <x:String>UiPath.Tableau.Models</x:String>
+      <x:String>UiPath.BAF.Models.Connection</x:String>
+      <x:String>UiPath.BAF.Models.Connection.APIConnection</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>UiPath.BAF.Telemetry</x:String>
+      <x:String>UiPath.BAF.Activities.ContextModel</x:String>
+      <x:String>UiPath.BAF.Models</x:String>
+      <x:String>UiPath.BAF.ServiceInterfaces</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>UiPath.Tableau.Activities</x:String>
+      <x:String>UiPath.CodeGen.Activities</x:String>
+      <x:String>UiPath.BAF.Activities</x:String>
+      <x:String>UiPath.BAF.Models.Entity</x:String>
+      <x:String>UiPath.BAF.Models.CrudOperation</x:String>
+      <x:String>UiPath.BAF.Models.Response</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="26">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.Tableau</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>UiPath.Tableau.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="542.4,613.6" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="utm:TableauConnection" Name="TableauConnection" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <uta:TableauScopeActivity ExistingConnection="{x:Null}" Connection="[TableauConnection]" DesignConnectionEnabled="True" DisplayName="Tableau Application Scope" ExistingConnectionType="utm:TableauConnection" sap:VirtualizedContainerService.HintSize="480,490.4" sap2010:WorkflowViewState.IdRef="TableauScopeActivity_1" RefreshCacheEnabled="False" SelectedAuthType="API Token" SelectedDesignAuthType="API Token" TelemetryEnabled="False" ThrowExceptionOnError="False">
+      <uta:TableauScopeActivity.Body>
+        <ActivityAction x:TypeArguments="ubac:ScopeActivityContext">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="ubac:ScopeActivityContext" Name="ScopeActivityContext" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="446.4,369.6" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <uta:QueryViewImage BusinessEntityName="{x:Null}" ScopeActivityType="{x:Null}" Status="{x:Null}" Timeout="{x:Null}" ConfiguredBusinessEntity="QueryViewImage" CrudOperation="Function" DesignConnectionEnabled="True" DisplayName="Download View As Image" sap:VirtualizedContainerService.HintSize="384,246.4" sap2010:WorkflowViewState.IdRef="QueryViewImage_2">
+              <uta:QueryViewImage.BusinessEntity>
+                <ubme:BusinessEntity AuthFields="{x:Null}" Connection="{x:Null}" Id="{x:Null}" Metadata="{x:Reference __ReferenceID0}" Name="QueryViewImage">
+                  <ubme:BusinessEntity.AllFields>
+                    <scg:List x:TypeArguments="ubme:EntityField" Capacity="0" />
+                  </ubme:BusinessEntity.AllFields>
+                  <ubme:BusinessEntity.EntityMetadata>
+                    <ubme:EntityMetadata Description="{x:Null}" PrimaryFields="{x:Null}" EligibleOperations="-1" IsCustomEntity="False" Name="QueryViewImage">
+                      <ubme:EntityMetadata.Metadata>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object" x:Name="__ReferenceID0" />
+                      </ubme:EntityMetadata.Metadata>
+                    </ubme:EntityMetadata>
+                  </ubme:BusinessEntity.EntityMetadata>
+                  <ubme:BusinessEntity.SelectedFields>
+                    <scg:List x:TypeArguments="ubme:EntityField" Capacity="0" />
+                  </ubme:BusinessEntity.SelectedFields>
+                  <ubme:BusinessEntity.TelemetryProperties>
+                    <scg:Dictionary x:TypeArguments="ubt:TelemetryGroup, scg:IDictionary(x:String, x:String)" />
+                  </ubme:BusinessEntity.TelemetryProperties>
+                </ubme:BusinessEntity>
+              </uta:QueryViewImage.BusinessEntity>
+              <uta:QueryViewImage.PopulatedAPIParameters>
+                <scg:Dictionary x:TypeArguments="x:String, ubme:EntityField" />
+              </uta:QueryViewImage.PopulatedAPIParameters>
+              <uta:QueryViewImage.SelectedFields>
+                <scg:List x:TypeArguments="ubme:EntityField" Capacity="8">
+                  <ucm:CodeGenEntityField ContainingType="{x:Null}" DefaultValue="{x:Null}" FieldFullName="{x:Null}" OriginalArgumentType="{x:Null}" SampleValue="{x:Null}" Value="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" DataType="String" Description="The ID of the site that contains the view." DisplayName="Site ID" FieldName="Site ID" FormDataType="TextBoxWithButton" IsCustomField="False" IsDefault="False" IsDeletable="True" IsIdField="False" IsSelected="False" Mandatory="True" ShouldFilterOnChange="False">
+                    <ucm:CodeGenEntityField.ArgumentValue>
+                      <InArgument x:TypeArguments="x:String">32c78ea7-f8e7-4b63-aaf4-c65c922eca01</InArgument>
+                    </ucm:CodeGenEntityField.ArgumentValue>
+                    <ucm:CodeGenEntityField.Metadata>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <ube:WindowType x:Key="WindowType">FindObject</ube:WindowType>
+                        <ubmv:FindObjectInput ParentQuery="{x:Null}" Query="{x:Null}" x:Key="WindowTypeInput" IsMultiSelectAllowed="False" ObjectType="SiteId" ParentQueryLabel="" ReturnColumn="Id" ShouldLoadOnStart="False" WindowName="Site">
+                          <ubmv:FindObjectInput.ColumnsToShow>
+                            <scg:List x:TypeArguments="x:String" Capacity="4">
+                              <x:String>WorkbookId</x:String>
+                              <x:String>Workbook Name</x:String>
+                            </scg:List>
+                          </ubmv:FindObjectInput.ColumnsToShow>
+                          <ubmv:FindObjectInput.Metadata>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:String x:Key="QueryType">Sites</x:String>
+                            </scg:Dictionary>
+                          </ubmv:FindObjectInput.Metadata>
+                          <ubmv:FindObjectInput.QueryFilterColumns>
+                            <scg:List x:TypeArguments="x:String" Capacity="4">
+                              <x:String>WorkbookId</x:String>
+                              <x:String>Workbook Name</x:String>
+                            </scg:List>
+                          </ubmv:FindObjectInput.QueryFilterColumns>
+                        </ubmv:FindObjectInput>
+                        <x:String x:Key="QueryType">Sites</x:String>
+                      </scg:Dictionary>
+                    </ucm:CodeGenEntityField.Metadata>
+                  </ucm:CodeGenEntityField>
+                  <ucm:CodeGenEntityField ContainingType="{x:Null}" DefaultValue="{x:Null}" FieldFullName="{x:Null}" OriginalArgumentType="{x:Null}" SampleValue="{x:Null}" Value="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" DataType="String" Description="The ID of the view to render as data." DisplayName="View ID" FieldName="View ID" FormDataType="TextBoxWithButton" IsCustomField="False" IsDefault="False" IsDeletable="True" IsIdField="False" IsSelected="False" Mandatory="True" ShouldFilterOnChange="False">
+                    <ucm:CodeGenEntityField.ArgumentValue>
+                      <InArgument x:TypeArguments="x:String">2a2a5704-c945-4074-bd6d-a175ece92e75</InArgument>
+                    </ucm:CodeGenEntityField.ArgumentValue>
+                    <ucm:CodeGenEntityField.Metadata>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <ube:WindowType x:Key="WindowType">FindObject</ube:WindowType>
+                        <ubmv:FindObjectInput Query="{x:Null}" x:Key="WindowTypeInput" IsMultiSelectAllowed="False" ObjectType="Workbook ID" ParentQuery="32c78ea7-f8e7-4b63-aaf4-c65c922eca01" ParentQueryLabel="Site ID" ReturnColumn="Id" ShouldLoadOnStart="False" WindowName="View">
+                          <ubmv:FindObjectInput.ColumnsToShow>
+                            <scg:List x:TypeArguments="x:String" Capacity="4">
+                              <x:String>WorkbookId</x:String>
+                              <x:String>Workbook Name</x:String>
+                            </scg:List>
+                          </ubmv:FindObjectInput.ColumnsToShow>
+                          <ubmv:FindObjectInput.Metadata>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:String x:Key="QueryType">Views</x:String>
+                            </scg:Dictionary>
+                          </ubmv:FindObjectInput.Metadata>
+                          <ubmv:FindObjectInput.QueryFilterColumns>
+                            <scg:List x:TypeArguments="x:String" Capacity="4">
+                              <x:String>WorkbookId</x:String>
+                              <x:String>Workbook Name</x:String>
+                            </scg:List>
+                          </ubmv:FindObjectInput.QueryFilterColumns>
+                        </ubmv:FindObjectInput>
+                        <x:String x:Key="QueryType">Views</x:String>
+                      </scg:Dictionary>
+                    </ucm:CodeGenEntityField.Metadata>
+                  </ucm:CodeGenEntityField>
+                  <ucm:CodeGenEntityField ContainingType="{x:Null}" DefaultValue="{x:Null}" FieldFullName="{x:Null}" Metadata="{x:Null}" OriginalArgumentType="{x:Null}" SampleValue="{x:Null}" Value="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" DataType="String" Description="The folder to download the report to." DisplayName="Folder Path" FieldName="Folder Path" FormDataType="FolderPicker" IsCustomField="False" IsDefault="False" IsDeletable="True" IsIdField="False" IsSelected="False" Mandatory="True" ShouldFilterOnChange="False">
+                    <ucm:CodeGenEntityField.ArgumentValue>
+                      <InArgument x:TypeArguments="x:String">C:\Users\Divisha\Desktop\Extra\TableauOutput</InArgument>
+                    </ucm:CodeGenEntityField.ArgumentValue>
+                  </ucm:CodeGenEntityField>
+                  <ucm:CodeGenEntityField ContainingType="{x:Null}" DefaultValue="{x:Null}" FieldFullName="{x:Null}" Metadata="{x:Null}" OriginalArgumentType="{x:Null}" SampleValue="{x:Null}" Value="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" DataType="String" Description="The filename you wish to use." DisplayName="File Name" FieldName="File Name" FormDataType="ExpressionTextBox" IsCustomField="False" IsDefault="False" IsDeletable="True" IsIdField="False" IsSelected="False" Mandatory="False" ShouldFilterOnChange="False">
+                    <ucm:CodeGenEntityField.ArgumentValue>
+                      <InArgument x:TypeArguments="x:String" />
+                    </ucm:CodeGenEntityField.ArgumentValue>
+                  </ucm:CodeGenEntityField>
+                  <ucm:CodeGenEntityField ContainingType="{x:Null}" DefaultValue="{x:Null}" FieldFullName="{x:Null}" Metadata="{x:Null}" OriginalArgumentType="{x:Null}" SampleValue="{x:Null}" Value="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" DataType="String" Description="The value of the field that you want to use to filter the workbook view" DisplayName="Filter Value" FieldName="Filter Value" FormDataType="ExpressionTextBox" IsCustomField="False" IsDefault="False" IsDeletable="True" IsIdField="False" IsSelected="False" Mandatory="False" ShouldFilterOnChange="False">
+                    <ucm:CodeGenEntityField.ArgumentValue>
+                      <InArgument x:TypeArguments="x:String" />
+                    </ucm:CodeGenEntityField.ArgumentValue>
+                  </ucm:CodeGenEntityField>
+                  <ucm:CodeGenEntityField ContainingType="{x:Null}" DefaultValue="{x:Null}" FieldFullName="{x:Null}" Metadata="{x:Null}" OriginalArgumentType="{x:Null}" SampleValue="{x:Null}" Value="{x:Null}" ArgumentDirection="In" ArgumentType="x:Int32" DataType="Int32" Description="The maximum number of minutes view data will be cached before being refreshed" DisplayName="Max Age Minutes" FieldName="Max Age Minutes" FormDataType="ExpressionTextBox" IsCustomField="False" IsDefault="False" IsDeletable="True" IsIdField="False" IsSelected="False" Mandatory="False" ShouldFilterOnChange="False">
+                    <ucm:CodeGenEntityField.ArgumentValue>
+                      <InArgument x:TypeArguments="x:Int32" />
+                    </ucm:CodeGenEntityField.ArgumentValue>
+                  </ucm:CodeGenEntityField>
+                  <ucm:CodeGenEntityField ContainingType="{x:Null}" DefaultValue="{x:Null}" FieldFullName="{x:Null}" Metadata="{x:Null}" OriginalArgumentType="{x:Null}" SampleValue="{x:Null}" Value="{x:Null}" ArgumentDirection="In" ArgumentType="x:Boolean" DataType="Boolean" Description="Whether to download image with maximum pixel density" DisplayName="High Resolution" FieldName="High Resolution" FormDataType="ExpressionTextBox" IsCustomField="False" IsDefault="False" IsDeletable="True" IsIdField="False" IsSelected="False" Mandatory="False" ShouldFilterOnChange="False">
+                    <ucm:CodeGenEntityField.ArgumentValue>
+                      <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                    </ucm:CodeGenEntityField.ArgumentValue>
+                  </ucm:CodeGenEntityField>
+                </scg:List>
+              </uta:QueryViewImage.SelectedFields>
+              <uta:QueryViewImage.ServiceFactory>
+                <uts:TableauServiceFactory />
+              </uta:QueryViewImage.ServiceFactory>
+              <uta:QueryViewImage.TelemetryProperties>
+                <scg:Dictionary x:TypeArguments="ubt:TelemetryGroup, scg:IDictionary(x:String, x:String)" />
+              </uta:QueryViewImage.TelemetryProperties>
+            </uta:QueryViewImage>
+          </Sequence>
+        </ActivityAction>
+      </uta:TableauScopeActivity.Body>
+      <uta:TableauScopeActivity.ConnectionParameters>
+        <scg:List x:TypeArguments="ucmc:ConnectionParam" Capacity="8">
+          <ucmc:ConnectionParam x:TypeArguments="x:String" Value="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" Description="API Token Name" GenericArgumentValue="TempToken" Mandatory="True" Name="API Token Name">
+            <ucmc:ConnectionParam.ArgumentValue>
+              <InArgument x:TypeArguments="x:String">TempToken</InArgument>
+            </ucmc:ConnectionParam.ArgumentValue>
+          </ucmc:ConnectionParam>
+          <ucmc:ConnectionParam x:TypeArguments="x:String" Value="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" Description="API Token Secret" GenericArgumentValue="XWCWCASjS2Gzkcqu7BOI1g==:wqJFxa7k4uR7h71zh48LMdo9k4Z6UV58" Mandatory="True" Name="API Token Secret">
+            <ucmc:ConnectionParam.ArgumentValue>
+              <InArgument x:TypeArguments="x:String">XWCWCASjS2Gzkcqu7BOI1g==:wqJFxa7k4uR7h71zh48LMdo9k4Z6UV58</InArgument>
+            </ucmc:ConnectionParam.ArgumentValue>
+          </ucmc:ConnectionParam>
+          <ucmc:ConnectionParam x:TypeArguments="x:String" Value="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" Description="The version of the API to use, If not provided, it will be defaulted to 3.4." GenericArgumentValue="3.12" Mandatory="False" Name="Api Version">
+            <ucmc:ConnectionParam.ArgumentValue>
+              <InArgument x:TypeArguments="x:String">3.12</InArgument>
+            </ucmc:ConnectionParam.ArgumentValue>
+          </ucmc:ConnectionParam>
+          <ucmc:ConnectionParam x:TypeArguments="x:String" Value="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" Description="For Tableau Online, contentUrl with the value of an existing site must always be provided. If these are missing, the Sign In request will fail." GenericArgumentValue="manojbatra" Mandatory="True" Name="Site Name">
+            <ucmc:ConnectionParam.ArgumentValue>
+              <InArgument x:TypeArguments="x:String">manojbatra</InArgument>
+            </ucmc:ConnectionParam.ArgumentValue>
+          </ucmc:ConnectionParam>
+          <ucmc:ConnectionParam x:TypeArguments="x:String" Value="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" Description="URL for your Tableau Server." GenericArgumentValue="https://10ax.online.tableau.com/" Mandatory="True" Name="Tableau Server URL">
+            <ucmc:ConnectionParam.ArgumentValue>
+              <InArgument x:TypeArguments="x:String">https://10ax.online.tableau.com/</InArgument>
+            </ucmc:ConnectionParam.ArgumentValue>
+          </ucmc:ConnectionParam>
+        </scg:List>
+      </uta:TableauScopeActivity.ConnectionParameters>
+      <uta:TableauScopeActivity.DesignConnectionParameters>
+        <scg:List x:TypeArguments="ucmc:ConnectionParam" Capacity="8">
+          <ucmc:ConnectionParam x:TypeArguments="x:String" ArgumentValue="{x:Null}" GenericArgumentValue="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" Description="API Token Name" Mandatory="True" Name="API Token Name" Value="TempToken" />
+          <ucmc:ConnectionParam x:TypeArguments="x:String" ArgumentValue="{x:Null}" GenericArgumentValue="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" Description="API Token Secret" Mandatory="True" Name="API Token Secret" Value="XWCWCASjS2Gzkcqu7BOI1g==:wqJFxa7k4uR7h71zh48LMdo9k4Z6UV58" />
+          <ucmc:ConnectionParam x:TypeArguments="x:String" ArgumentValue="{x:Null}" GenericArgumentValue="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" Description="The version of the API to use, If not provided, it will be defaulted to 3.4." Mandatory="False" Name="Api Version" Value="3.12" />
+          <ucmc:ConnectionParam x:TypeArguments="x:String" ArgumentValue="{x:Null}" GenericArgumentValue="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" Description="For Tableau Online, contentUrl with the value of an existing site must always be provided. If these are missing, the Sign In request will fail." Mandatory="True" Name="Site Name" Value="manojbatra" />
+          <ucmc:ConnectionParam x:TypeArguments="x:String" ArgumentValue="{x:Null}" GenericArgumentValue="{x:Null}" ArgumentDirection="In" ArgumentType="x:String" Description="URL for your Tableau Server." Mandatory="True" Name="Tableau Server URL" Value="https://10ax.online.tableau.com/" />
+        </scg:List>
+      </uta:TableauScopeActivity.DesignConnectionParameters>
+      <uta:TableauScopeActivity.DesignConnectionRequest>
+        <utm:TableauConnectionParameters APIKey="{x:Null}" BaseUrl="{x:Null}" BearerToken="{x:Null}" ClientId="{x:Null}" ClientSecret="{x:Null}" ConfigFileClient="{x:Null}" ConfigFilePath="{x:Null}" ExistingConnection="{x:Null}" JWTToken="{x:Null}" OAuth2Token="{x:Null}" Password="{x:Null}" Scopes="{x:Null}" SwaggerClient="{x:Reference __ReferenceID1}" Username="{x:Null}" ApiVersion="3.12" AuthType="ApiToken" ContentUrl="manojbatra" PersonalAccessTokenName="TempToken" PersonalAccessTokenSecret="XWCWCASjS2Gzkcqu7BOI1g==:wqJFxa7k4uR7h71zh48LMdo9k4Z6UV58" TableauAuthToken="YSEqv5kAQo6NcOf_s39pDg|obVEnjf2bN9r55LUS8EjIQLENTbyHn6l|32c78ea7-f8e7-4b63-aaf4-c65c922eca01" TableauServer="https://10ax.online.tableau.com/" Timeout="0">
+          <utm:TableauConnectionParameters.SiteIDs>
+            <scg:List x:TypeArguments="utmr:Site" Capacity="4">
+              <utmr:Site ContentUrl="manojbatra" Id="32c78ea7-f8e7-4b63-aaf4-c65c922eca01" />
+            </scg:List>
+          </utm:TableauConnectionParameters.SiteIDs>
+        </utm:TableauConnectionParameters>
+      </uta:TableauScopeActivity.DesignConnectionRequest>
+      <uta:TableauScopeActivity.ServiceFactory>
+        <uts:TableauServiceFactory />
+      </uta:TableauScopeActivity.ServiceFactory>
+      <uta:TableauScopeActivity.SupportedAuthTypes>
+        <scg:List x:TypeArguments="x:String" Capacity="4">
+          <x:String>Existing Connection</x:String>
+          <x:String>Basic Auth</x:String>
+          <x:String>API Token</x:String>
+        </scg:List>
+      </uta:TableauScopeActivity.SupportedAuthTypes>
+      <uta:TableauScopeActivity.SwaggerClient>
+        <usm:SwaggerClient SwaggerMetadata="{x:Null}" x:Name="__ReferenceID1" ClientAssembly="UiPath.Tableau" ClientNamespace="UiPath.Tableau" />
+      </uta:TableauScopeActivity.SwaggerClient>
+      <uta:TableauScopeActivity.TelemetryProperties>
+        <scg:Dictionary x:TypeArguments="ubt:TelemetryGroup, scg:IDictionary(x:String, x:String)" />
+      </uta:TableauScopeActivity.TelemetryProperties>
+    </uta:TableauScopeActivity>
+  </Sequence>
+</Activity>
