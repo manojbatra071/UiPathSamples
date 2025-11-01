@@ -3,3 +3,12 @@
 /Agent - DeepComplianceAgent/__uipath
 /Deep Compliance Guardian/.uipath
 /Deep Compliance Guardian/__uipath
+/Agent - MCP-Function-Agent/.agent
+/Agent - MCP-Function-Agent/.uipath
+/Agent - MCP-Function-Agent/.venv
+/Agent - MCP-Function-Agent/__uipath
+/MCP - AnoamolyDetection/.uipath
+/MCP - AnoamolyDetection/.venv
+/MCP - mcp-functions-server/.uipath
+/MCP - mcp-functions-server/.venv
+/MCP - mcp-functions-server/.vscode

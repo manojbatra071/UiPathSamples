@@ -1,0 +1,11 @@
+{
+    "entryPoints": [
+        {
+            "filePath": "functions-server",
+            "uniqueId": "f07eb20c-1205-40df-8413-9c15c776cdd5",
+            "type": "mcpserver",
+            "input": {},
+            "output": {}
+        }
+    ]
+}
