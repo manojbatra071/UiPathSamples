@@ -1,0 +1,108 @@
+{
+    "entryPoints": [
+        {
+            "filePath": "agent",
+            "uniqueId": "870b7e48-3c4f-4dd3-8c97-4408cefe5f95",
+            "type": "agent",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "topic": {
+                        "type": "string"
+                    },
+                    "retrieved_rules": {
+                        "items": {},
+                        "type": "array"
+                    },
+                    "findings": {
+                        "items": {},
+                        "type": "array"
+                    },
+                    "anomalies": {
+                        "items": {},
+                        "type": "array"
+                    },
+                    "anomaly_score": {
+                        "type": "number"
+                    },
+                    "decided_action": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "action_task_id": {
+                        "type": "string"
+                    },
+                    "audit_id": {
+                        "type": "string"
+                    },
+                    "audit_location": {
+                        "type": "string"
+                    },
+                    "feedback": {
+                        "items": {},
+                        "type": "array"
+                    }
+                },
+                "required": []
+            },
+            "output": {
+                "type": "object",
+                "properties": {
+                    "report": {
+                        "default": null,
+                        "title": "Report",
+                        "type": "string"
+                    }
+                },
+                "required": []
+            }
+        }
+    ],
+    "bindings": {
+        "version": "2.0",
+        "resources": [
+            {
+                "resource": "bucket",
+                "key": "os.getenv(\"FOLDER_PATH\", \"Shared\").bucket_name",
+                "value": {
+                    "name": {
+                        "defaultValue": "bucket_name",
+                        "isExpression": true,
+                        "displayName": "Name"
+                    },
+                    "folderPath": {
+                        "defaultValue": "os.getenv(\"FOLDER_PATH\", \"Shared\")",
+                        "isExpression": true,
+                        "displayName": "Folder Path"
+                    }
+                },
+                "metadata": {
+                    "ActivityName": "upload",
+                    "BindingsVersion": "2.2",
+                    "DisplayLabel": "FullName"
+                }
+            },
+            {
+                "resource": "bucket",
+                "key": "os.getenv(\"FOLDER_PATH\", None).bucket_name",
+                "value": {
+                    "name": {
+                        "defaultValue": "bucket_name",
+                        "isExpression": true,
+                        "displayName": "Name"
+                    },
+                    "folderPath": {
+                        "defaultValue": "os.getenv(\"FOLDER_PATH\", None)",
+                        "isExpression": true,
+                        "displayName": "Folder Path"
+                    }
+                },
+                "metadata": {
+                    "ActivityName": "upload",
+                    "BindingsVersion": "2.2",
+                    "DisplayLabel": "FullName"
+                }
+            }
+        ]
+    }
+}

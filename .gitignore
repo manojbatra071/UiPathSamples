@@ -1,0 +1,5 @@
+*.pyc
+/Agent - DeepComplianceAgent/.uipath
+/Agent - DeepComplianceAgent/__uipath
+/Deep Compliance Guardian/.uipath
+/Deep Compliance Guardian/__uipath

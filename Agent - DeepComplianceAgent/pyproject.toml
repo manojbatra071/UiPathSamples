@@ -1,0 +1,11 @@
+[project]
+name = "AI_Control_DocumentComparer"
+version = "0.0.1"
+description = "AI_Control_DocumentComparer"
+authors = [{ name = "Manoj Batra", email = "manojbatra071@gmail.com" }]
+dependencies = [
+    "uipath-langchain>=0.0.106",
+    "langchain-anthropic>=0.3.8",
+    "python-docx"
+]
+requires-python = ">=3.10"

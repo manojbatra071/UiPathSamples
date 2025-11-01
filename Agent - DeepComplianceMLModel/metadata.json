@@ -1,0 +1,20 @@
+{
+  "mlPackageName": "CustomAnomalyDetector",
+  "description": "IsolationForest anomaly detector (tabular).",
+  "version": "1.0.0",
+  "language": "python",
+  "mlPackageLanguage": "python",
+  "entryPoints": {
+    "train": {
+      "file": "train.py",
+      "function": "train"
+    },
+    "predict": {
+      "file": "main.py",
+      "function": "predict"
+    }
+  },
+  "requirementsFile": "requirements.txt",
+  "inputType": "json",
+  "outputType": "json"
+}
