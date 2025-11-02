@@ -1,6 +1,6 @@
 {
   "servers": {
-    "math-server": {
+    "anomaly-server": {
         "transport": "stdio",
         "command": "python",
         "args": ["server.py"]

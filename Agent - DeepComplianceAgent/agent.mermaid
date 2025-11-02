@@ -8,6 +8,7 @@ graph TD;
 	read_and_extract(read_and_extract)
 	find_relevant_rules(find_relevant_rules)
 	reason_about_compliance(reason_about_compliance)
+	check_for_anomalies_mcp(check_for_anomalies_mcp)
 	check_for_anomalies(check_for_anomalies)
 	decide_action(decide_action)
 	act_or_escalate(act_or_escalate)
@@ -17,12 +18,12 @@ graph TD;
 	__end__(<p>__end__</p>)
 	__start__ --> read_and_extract;
 	act_or_escalate --> explain_and_record;
-	check_for_anomalies --> decide_action;
+	check_for_anomalies_mcp --> decide_action;
 	decide_action --> act_or_escalate;
 	explain_and_record --> generate_report;
 	find_relevant_rules --> reason_about_compliance;
 	read_and_extract --> find_relevant_rules;
-	reason_about_compliance --> check_for_anomalies;
+	reason_about_compliance --> check_for_anomalies_mcp;
 	generate_report --> __end__;
 	classDef default fill:#f2f0ff,line-height:1.2
 	classDef first fill-opacity:0

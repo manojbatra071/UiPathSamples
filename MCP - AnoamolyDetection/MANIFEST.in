@@ -1,0 +1,5 @@
+# Include the entire models folder and its contents in source distributions
+recursive-include models *
+
+# Include the joblib model file at repository root if present
+include compliance_tabular_v1.joblib

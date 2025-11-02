@@ -1,10 +1,11 @@
 [project]
-name = "my-agent"
+name = "mcp-coder-agent"
 version = "0.0.1"
-description = "my-agent"
-authors = [{ name = "John Doe", email = "john.doe@myemail.com" }]
+description = "A coder agent that implements and tests Python functions using a dynamic MCP server"
+authors = [{ name = "Manoj Batra", email = "manoj.batra@uipath.com" }]
 dependencies = [
-    "uipath-langchain>=0.0.106",
-    "langchain-anthropic>=0.3.8",
+    "uipath-langchain>=0.0.118",
+    "langgraph>=0.5.4",
+    "langchain-mcp-adapters>=0.1.9"
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"

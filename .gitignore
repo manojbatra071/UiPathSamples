@@ -12,3 +12,5 @@
 /MCP - mcp-functions-server/.uipath
 /MCP - mcp-functions-server/.venv
 /MCP - mcp-functions-server/.vscode
+/Agent - DeepComplianceAgent/.agent
+/Agent - DeepComplianceAgent/.venv

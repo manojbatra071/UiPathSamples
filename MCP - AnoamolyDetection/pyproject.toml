@@ -1,9 +1,13 @@
 [project]
-name = "mcp-math-server"
-version = "0.0.1"
-description = "Advanced Math Operations MCP Server"
-authors = [{ name = "John Doe" }]
+name = "MCP_Anomaly_Detection"
+version = "0.0.8"
+description = "MCP Anomaly Detection"
+authors = [{ name = "Mannoj Batra" }]
 dependencies = [
     "uipath-mcp>=0.0.101",
-]
+    "scikit-learn",
+    "joblib",
+    "numpy",
+    "pandas",
+    ]
 requires-python = ">=3.11"

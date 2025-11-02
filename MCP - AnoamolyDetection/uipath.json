@@ -1,8 +1,8 @@
 {
     "entryPoints": [
         {
-            "filePath": "math-server",
-            "uniqueId": "e6eda250-f5ff-4551-99b6-76afeb91037e",
+            "filePath": "anomaly-server",
+            "uniqueId": "a7bc2678-b8e1-490a-a466-7856a56998fd",
             "type": "mcpserver",
             "input": {},
             "output": {}

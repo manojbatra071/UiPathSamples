@@ -2,7 +2,7 @@
     "entryPoints": [
         {
             "filePath": "agent",
-            "uniqueId": "870b7e48-3c4f-4dd3-8c97-4408cefe5f95",
+            "uniqueId": "2a5c9672-bbba-4e8d-891e-599e7e0fb48e",
             "type": "agent",
             "input": {
                 "type": "object",
@@ -30,7 +30,7 @@
                         "type": "object"
                     },
                     "action_task_id": {
-                        "type": "string"
+                        "type": "integer"
                     },
                     "audit_id": {
                         "type": "string"
@@ -63,7 +63,28 @@
         "resources": [
             {
                 "resource": "bucket",
-                "key": "os.getenv(\"FOLDER_PATH\", \"Shared\").bucket_name",
+                "key": "DeepComplianceBucket_Input.os.getenv(\"FOLDER_PATH\", \"Shared\")",
+                "value": {
+                    "name": {
+                        "defaultValue": "DeepComplianceBucket_Input",
+                        "isExpression": false,
+                        "displayName": "Name"
+                    },
+                    "folderPath": {
+                        "defaultValue": "os.getenv(\"FOLDER_PATH\", \"Shared\")",
+                        "isExpression": true,
+                        "displayName": "Folder Path"
+                    }
+                },
+                "metadata": {
+                    "ActivityName": "download",
+                    "BindingsVersion": "2.2",
+                    "DisplayLabel": "FullName"
+                }
+            },
+            {
+                "resource": "bucket",
+                "key": "bucket_name.os.getenv(\"FOLDER_PATH\", \"Shared\")",
                 "value": {
                     "name": {
                         "defaultValue": "bucket_name",
@@ -84,7 +105,7 @@
             },
             {
                 "resource": "bucket",
-                "key": "os.getenv(\"FOLDER_PATH\", None).bucket_name",
+                "key": "bucket_name.os.getenv(\"FOLDER_PATH\", None)",
                 "value": {
                     "name": {
                         "defaultValue": "bucket_name",
@@ -99,6 +120,27 @@
                 },
                 "metadata": {
                     "ActivityName": "upload",
+                    "BindingsVersion": "2.2",
+                    "DisplayLabel": "FullName"
+                }
+            },
+            {
+                "resource": "index",
+                "key": "index_name.os.getenv(\"FOLDER_PATH\", \"Shared\")",
+                "value": {
+                    "name": {
+                        "defaultValue": "index_name",
+                        "isExpression": true,
+                        "displayName": "Name"
+                    },
+                    "folderPath": {
+                        "defaultValue": "os.getenv(\"FOLDER_PATH\", \"Shared\")",
+                        "isExpression": true,
+                        "displayName": "Folder Path"
+                    }
+                },
+                "metadata": {
+                    "ActivityName": "search",
                     "BindingsVersion": "2.2",
                     "DisplayLabel": "FullName"
                 }

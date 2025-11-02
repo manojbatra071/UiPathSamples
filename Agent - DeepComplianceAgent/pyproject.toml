@@ -1,11 +1,17 @@
 [project]
-name = "AI_Control_DocumentComparer"
-version = "0.0.1"
-description = "AI_Control_DocumentComparer"
+name = "DeepComplianceAgent"
+version = "0.0.4"
+description = "DeepComplianceAgent"
 authors = [{ name = "Manoj Batra", email = "manojbatra071@gmail.com" }]
 dependencies = [
     "uipath-langchain>=0.0.106",
     "langchain-anthropic>=0.3.8",
-    "python-docx"
+    "python-docx",
+    "langchain-mcp-adapters",
+    "mcp",
+    "langgraph",
+    "pydantic",
+    "python-dotenv",
+    "httpx"
 ]
 requires-python = ">=3.10"

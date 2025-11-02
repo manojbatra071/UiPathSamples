@@ -3,6 +3,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_community.chat_models import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
+from uipath.models import CreateAction
 from pydantic import BaseModel
 import os
 from typing import Optional, List, Any, Dict
@@ -22,9 +23,14 @@ import datetime
 import uuid
 import tempfile
 from pathlib import Path
+from langgraph.types import interrupt, Command
 
 from uipath_langchain.chat import UiPathChat
 from pydantic import BaseModel
+from contextlib import asynccontextmanager
+from langchain_mcp_adapters.tools import load_mcp_tools
+from mcp import ClientSession
+from mcp.client.streamable_http import streamablehttp_client
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -32,6 +38,35 @@ logger = logging.getLogger(__name__)
 # You may keep this UiPathChat instance for other quick LLM calls, but main calls below use `call_llm`.
 llm = UiPathChat(model="gpt-4o-mini-2024-07-18")
 
+uipath_client = UiPath()
+
+# ---------------- MCP Server Configuration ----------------
+@asynccontextmanager
+async def get_mcp_session():
+    """MCP session management"""
+    MCP_SERVER_URL = os.getenv("MCP_SERVER_URL", "https://staging.uipath.com/mannojborg/DefaultTenant/agenthub_/mcp/f11ed1f4-7781-4cb5-9fec-e2777c6d0933/anomalyservermcp")
+    
+    if hasattr(uipath_client, 'api_client'):
+                if hasattr(uipath_client.api_client, 'default_headers'):
+                    auth_header = uipath_client.api_client.default_headers.get('Authorization', '')
+                    if auth_header.startswith('Bearer '):
+                        UIPATH_ACCESS_TOKEN = auth_header.replace('Bearer ', '')
+                        logging.info("Retrieved token from UiPath API client")
+    
+    async with streamablehttp_client(
+        url=MCP_SERVER_URL,
+        headers={"Authorization": f"Bearer {UIPATH_ACCESS_TOKEN}"} if UIPATH_ACCESS_TOKEN else {},
+        timeout=60,
+    ) as (read, write, session_id_callback):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            yield session
+
+async def get_mcp_tools():
+    """Load MCP tools for use with agents"""
+    async with get_mcp_session() as session:
+        tools = await load_mcp_tools(session)
+        return tools
 
 
 
@@ -125,6 +160,16 @@ def safe_get_snippets(retrieved, n=3):
 # ------------------ Node: Read & Extract ------------------
 async def read_and_extract(state: GraphState) -> GraphState:
     logger.info("Read & Extract: starting document read.")
+    sdk = UiPath()
+    sdk.buckets.download(
+                    name="DeepComplianceBucket_Input",
+                    blob_file_path="Supplier.docx",
+                    destination_path="supplier.docx",
+                    folder_path=os.getenv("FOLDER_PATH", "Shared"),
+                )
+
+
+
     filepath = os.getenv("INPUT_FILE", "supplier.docx")
     if not os.path.exists(filepath):
         logger.warning(f"Read & Extract: file not found at {filepath}. Keeping original topic.")
@@ -274,6 +319,122 @@ async def reason_about_compliance(state: GraphState) -> GraphState:
 
 
 
+# ------------------ Node: check_for_anomalies_mcp () ------------------
+async def check_for_anomalies_mcp(state: GraphState) -> GraphState:
+    logger.info("check_for_anomalies_mcp: starting anomaly detection via MCP.")
+    doc_text = state.topic or ""
+    
+    # 1. Feature Extraction (adapted from the original check_for_anomalies)
+    if not doc_text.strip():
+        logger.warning("check_for_anomalies_mcp: no document text available.")
+        return state
+
+    number_regex = re.compile(r"(?P<full>(?:[£$€₹])?\s?\d{1,3}(?:[,.\s]\d{3})*(?:[.,]\d+)?|\b\d+(?:[.,]\d+)?\b)")
+    matches = number_regex.finditer(doc_text)
+    
+    values = []
+    for m in matches:
+        s = m.group("full")
+        cleaned = re.sub(r"[£$€₹\s]", "", s)
+        cleaned = cleaned.replace(",", "")
+        try:
+            val = float(cleaned)
+            values.append(val)
+        except Exception:
+            continue
+
+    # 2. Prepare the Feature Vector
+    if len(values) < 2:
+        logger.warning("check_for_anomalies_mcp: too few numeric values found to compute features.")
+        # We cannot generate the required 6 features, so we return with default scores.
+        return GraphState(
+            topic=state.topic, retrieved_rules=state.retrieved_rules, findings=state.findings, 
+            anomalies=[], anomaly_score=0.0
+        )
+
+    try:
+        # The MCP model expects: [count, mean, stdev, min, max, median]
+        feature_vector = [
+            float(len(values)),
+            statistics.mean(values),
+            statistics.pstdev(values) if statistics.pstdev(values) != 0 else 1e-9, # Avoid zero division
+            min(values),
+            max(values),
+            statistics.median(values),
+        ]
+        logger.info(f"check_for_anomalies_mcp: Computed feature vector: {feature_vector}")
+
+    except Exception:
+        logger.exception("check_for_anomalies_mcp: Failed to compute feature vector statistics.")
+        return state
+
+    # 3. Call the MCP tools (Train then Predict)
+    try:
+        async with get_mcp_session() as session:
+            tools = await load_mcp_tools(session)
+            
+            train_tool = next((tool for tool in tools if "train_tool" in tool.name.lower()), None)
+            predict_tool = next((tool for tool in tools if "predict_tool" in tool.name.lower()), None)
+            
+            if not train_tool or not predict_tool:
+                logging.warning("WARNING: Required MCP tools (train_tool or predict_tool) not found.")
+                return state
+
+            # --- Explicitly call train_tool for testing purposes ---
+            logger.info("check_for_anomalies_mcp: Executing train_tool for fresh model creation.")
+            train_result = await train_tool.ainvoke({"payload": {}}) # train_tool expects a 'payload' argument
+            
+            if isinstance(train_result, dict) and "error" in train_result:
+                 logger.error(f"MCP train_tool execution failed: {train_result['error']}")
+                 return state
+
+            # --- Call predict_tool ---
+            payload_dict = {
+                "model_name": "compliance_tabular_v1",
+                "feature_vector": feature_vector
+            }
+            
+            logger.info(f"check_for_anomalies_mcp: Invoking predict_tool.")
+            
+            # The result from a successful tool call is the dictionary the MCP tool returned
+            result = await predict_tool.ainvoke({"payload": payload_dict})
+
+            print(f"MCP predict_tool result: {result}")
+            
+            # 4. Process the Result
+            if isinstance(result, dict) and "scores" in result and result.get("scores"):
+                # The model predicts one row, so we expect one score
+                anomaly_score = result["scores"][0] # Higher score -> more anomalous
+                is_anomaly = result["is_anomaly"][0]
+                
+                anomalies = [{
+                    "type": "TabularAnomaly",
+                    "score": anomaly_score,
+                    "is_anomaly": is_anomaly,
+                    "features": feature_vector
+                }]
+                
+                logger.info(f"check_for_anomalies_mcp: MCP result: score={anomaly_score:.4f}, is_anomaly={is_anomaly}")
+                
+                return GraphState(
+                    topic=state.topic,
+                    retrieved_rules=state.retrieved_rules,
+                    findings=state.findings,
+                    anomalies=anomalies,
+                    anomaly_score=anomalies[0]["score"] if is_anomaly else 0.4,
+                )
+            
+            # Handle error case where the MCP tool execution failed gracefully
+            elif isinstance(result, dict) and "error" in result:
+                 logger.error(f"MCP predict_tool execution failed: {result['error']}")
+                 return state
+
+    except Exception:
+        logger.exception("check_for_anomalies_mcp: unexpected error during MCP call.")
+        return state
+        
+    return state # Fallback if processing failed
+
 # ------------------ Node: Check for Anomalies ------------------
 async def check_for_anomalies(state: GraphState) -> GraphState:
     logger.info("check_for_anomalies: starting anomaly detection.")
@@ -401,8 +562,7 @@ async def act_or_escalate(state: GraphState) -> GraphState:
                 action_data = {
                     "reason": decision.get("reason"),
                     "findings": state.findings,
-                    "anomaly_score": state.anomaly_score,
-                    "created_at": datetime.datetime.utcnow().isoformat() + "Z",
+                    "anomaly_score":  0.8, #state.anomaly_score,
                 }
 
                 logger.info(f"Creating Action Center task with data: {json.dumps(action_data)[:1000]}")
@@ -415,6 +575,9 @@ async def act_or_escalate(state: GraphState) -> GraphState:
                 # Call the SDK correctly: title + data=...
                 if hasattr(sdk, "actions") and callable(getattr(sdk.actions, "create", None)):
                     logger.info("Using UiPath SDK actions.create to create Action Center task.")
+
+
+
                     # synchronous create
                     task_obj = sdk.actions.create(
                         title= "Compliance review required-",
@@ -454,6 +617,9 @@ async def act_or_escalate(state: GraphState) -> GraphState:
         else:
             logger.warning(f"Unknown action '{action}'. Defaulting to log_and_monitor.")
             task_id = None
+
+
+        logger.info(f"act_or_escalate: completed action '{action}' with task_id={task_id}")
 
         return GraphState(
             topic=state.topic,
@@ -606,6 +772,7 @@ builder = StateGraph(GraphState, output=GraphOutput)
 builder.add_node("read_and_extract", read_and_extract)
 builder.add_node("find_relevant_rules", find_relevant_rules)
 builder.add_node("reason_about_compliance", reason_about_compliance)
+builder.add_node("check_for_anomalies_mcp", check_for_anomalies_mcp)  # MCP-based anomaly detection (not in main flow)
 builder.add_node("check_for_anomalies", check_for_anomalies)
 builder.add_node("decide_action", decide_action)
 builder.add_node("act_or_escalate", act_or_escalate)
@@ -619,8 +786,9 @@ builder.add_node("learn_from_feedback", learn_from_feedback)
 builder.add_edge(START, "read_and_extract")
 builder.add_edge("read_and_extract", "find_relevant_rules")
 builder.add_edge("find_relevant_rules", "reason_about_compliance")
-builder.add_edge("reason_about_compliance", "check_for_anomalies")
-builder.add_edge("check_for_anomalies", "decide_action")
+builder.add_edge("reason_about_compliance", "check_for_anomalies_mcp")
+builder.add_edge("check_for_anomalies_mcp", "decide_action")
+#builder.add_edge("check_for_anomalies", "decide_action")
 builder.add_edge("decide_action", "act_or_escalate")
 builder.add_edge("act_or_escalate", "explain_and_record")
 builder.add_edge("explain_and_record", "generate_report")
