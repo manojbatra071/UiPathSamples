@@ -397,15 +397,21 @@ async def check_for_anomalies_mcp(state: GraphState) -> GraphState:
             logger.info(f"check_for_anomalies_mcp: Invoking predict_tool.")
             
             # The result from a successful tool call is the dictionary the MCP tool returned
-            result = await predict_tool.ainvoke({"payload": payload_dict})
+            str_result = await predict_tool.ainvoke({"payload": payload_dict})
 
-            print(f"MCP predict_tool result: {result}")
+            print(f"MCP predict_tool result: {str_result}")
+            result = json.loads(str_result)
+
+            print(type(result))
+            print(result.keys() if isinstance(result, dict) else "No keys")
             
             # 4. Process the Result
-            if isinstance(result, dict) and "scores" in result and result.get("scores"):
+            if "scores" in result and result.get("scores"):
+                logger.info("Process the result.")
                 # The model predicts one row, so we expect one score
                 anomaly_score = result["scores"][0] # Higher score -> more anomalous
                 is_anomaly = result["is_anomaly"][0]
+                logger.info(f"check_for_anomalies_mcp: MCP returned score={anomaly_score}, is_anomaly={is_anomaly}")
                 
                 anomalies = [{
                     "type": "TabularAnomaly",
@@ -415,7 +421,8 @@ async def check_for_anomalies_mcp(state: GraphState) -> GraphState:
                 }]
                 
                 logger.info(f"check_for_anomalies_mcp: MCP result: score={anomaly_score:.4f}, is_anomaly={is_anomaly}")
-                
+
+                state.anomaly_score = anomaly_score 
                 return GraphState(
                     topic=state.topic,
                     retrieved_rules=state.retrieved_rules,
@@ -496,7 +503,9 @@ async def check_for_anomalies(state: GraphState) -> GraphState:
 async def decide_action(state: GraphState) -> GraphState:
     logger.info("decide_action: starting decision logic.")
     findings = state.findings or []
+    
     anomaly_score = state.anomaly_score or 0.0
+    logger.info(f"decide_action: received {len(findings)} findings and anomaly_score={anomaly_score:.2f}")
 
     severities = [ (f.get("severity","Low") if isinstance(f, dict) else "Low") for f in findings ]
     confidences = [ (float(f.get("confidence",0.0)) if isinstance(f, dict) and f.get("confidence") is not None else 0.0) for f in findings ]
@@ -557,18 +566,27 @@ async def act_or_escalate(state: GraphState) -> GraphState:
             logger.info("Logging and setting monitor flag for this document.")
             task_id = None
         elif action == "escalate":
+            logger.info(f"the values are{decision.get("reason")}  {state.anomaly_score}")
+            result_text = "\n\n".join(
+                f"Issue: {f['issue']}\nSeverity: {f['severity']}\nExplanation: {f['explanation']}"
+                for f in state.findings or []
+            )
+            logger.info(result_text)
+
+
             try:
                 # Build the payload that will be stored in the Action's `data` field
                 action_data = {
-                    "reason": decision.get("reason"),
-                    "findings": state.findings,
-                    "anomaly_score":  0.8, #state.anomaly_score,
+                    "Reason": decision.get("reason"),
+                    "Findings": result_text,
+                    "AnomalyScore":  str(state.anomaly_score),
+                    "UserReason" : "",
                 }
 
                 logger.info(f"Creating Action Center task with data: {json.dumps(action_data)[:1000]}")
 
                 # Optional app-specific fields (set via env if you want app-specific actions)
-                app_name = os.getenv("ACTION_APP_NAME","ComplianceReviewApp")   # e.g., "ComplianceReviewApp"
+                app_name = os.getenv("ACTION_APP_NAME","ComplianceReviewApp1")   # e.g., "ComplianceReviewApp"
                 #app_key = os.getenv("ACTION_APP_KEY","")     # or app key if you prefer
                 #assignee = os.getenv("ACTION_ASSIGNEE","")   # optional username/email to assign
 
@@ -661,7 +679,7 @@ async def explain_and_record(state: GraphState) -> GraphState:
         tf.write_text(json.dumps(audit, default=str, ensure_ascii=False), encoding="utf-8")
 
         bucket_name = os.getenv("AUDIT_BUCKET", "DeepComplianceBucket_Log")
-        blob_file_path = f"audits/{tf.name}"
+        blob_file_path = f"{tf.name}"
         try:
             if hasattr(sdk, "buckets") and hasattr(sdk.buckets, "upload"):
                 sdk.buckets.upload(
@@ -712,7 +730,7 @@ async def learn_from_feedback(state: GraphState) -> GraphState:
         tf.write_text(json.dumps(fb_record, default=str, ensure_ascii=False), encoding="utf-8")
 
         bucket_name = os.getenv("FEEDBACK_BUCKET", "DeepComplianceBucket_Log")
-        blob_file_path = f"feedback/{tf.name}"
+        blob_file_path = f"{tf.name}"
         try:
             if hasattr(sdk, "buckets") and hasattr(sdk.buckets, "upload"):
                 sdk.buckets.upload(
@@ -762,7 +780,20 @@ async def generate_report(state: GraphState) -> GraphOutput:
             prompt_text = f"{prompt_text}\nAuditID:{state.audit_id}"
 
     # Use call_llm for generating the final human-readable report
-    content = await call_llm(prompt_text, system_prompt="You are a report generator. Provide a concise human-readable report based on the following information.")
+    content = await call_llm(prompt_text, system_prompt="You are a report generator. Provide a concise human-readable report based on the following information in the HTML format so that it can be passed to the email body.")
+    logger.info(f"ouput content {content}")
+    with open("output.txt", "w", encoding="utf-8") as f:
+        f.write(content)
+
+    sdk = UiPath()
+    sdk.buckets.upload(
+                    name="DeepComplianceBucket_Output",
+                    source_path="output.txt",
+                    blob_file_path=f"{state.audit_id}.txt",
+                    folder_path=os.getenv("FOLDER_PATH", "Shared"),
+                )
+
+    sdk.processes.invoke(name="DeepComplianceProjects.Rpa.RPA.Workflow", folder_path="shared", input_arguments={"FileName": state.audit_id })
     return GraphOutput(report=content if content else "")
 
 
