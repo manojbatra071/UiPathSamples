@@ -1,7 +1,7 @@
 [project]
-name = "DeepComplianceAgent"
+name = "DeepComplianceAgent_1"
 version = "0.0.4"
-description = "DeepComplianceAgent"
+description = "DeepComplianceAgent_1"
 authors = [{ name = "Manoj Batra", email = "manojbatra071@gmail.com" }]
 dependencies = [
     "uipath-langchain>=0.0.106",

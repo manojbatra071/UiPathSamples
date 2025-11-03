@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Procurement Audit Report</title>
+    <title>Invoice and Compliance Report</title>
 </head>
 <body>
-    <h2>Procurement Audit Report</h2>
+    <h2>Invoice Details</h2>
     <p><strong>Supplier:</strong> AlphaTech Solutions Pvt. Ltd.</p>
     <p><strong>Invoice No:</strong> INV-2048</p>
     <p><strong>Invoice Date:</strong> 12 September 2025</p>
@@ -20,24 +20,25 @@
     </ul>
     <p><strong>Authorized Signatory:</strong> AlphaTech Solutions Pvt. Ltd.</p>
 
-    <h3>Findings</h3>
+    <h2>Compliance Findings</h2>
     <ul>
         <li><strong>Missing Vendor KYC Verification:</strong> High severity. The vendor has not undergone KYC verification, which is required before engagement according to the procurement policy.</li>
         <li><strong>Unverified GST Registration:</strong> Medium severity. The GST registration details of the vendor have not been verified, which is a requirement for vendor onboarding.</li>
         <li><strong>Lack of Vendor Risk Assessment:</strong> Medium severity. No prior vendor risk assessment was found, which could pose a compliance risk.</li>
-        <li><strong>Payment Terms Violation:</strong> Medium severity. The payment terms of 50% advance and 50% within 30 days of project delivery do not align with the policy requirement of payment within 45 days of approval.</li>
+        <li><strong>Non-compliance with Payment Terms:</strong> Low severity. The payment terms specified in the invoice do not align with the policy requirement of payment within 45 days of approval.</li>
     </ul>
 
-    <h3>Anomalies</h3>
+    <h2>Anomalies</h2>
     <p><strong>Type:</strong> Tabular Anomaly</p>
     <p><strong>Score:</strong> 0.0542</p>
+    <p><strong>Is Anomaly:</strong> Yes</p>
 
-    <h3>Decision</h3>
+    <h2>Decision</h2>
     <p><strong>Action:</strong> Escalate</p>
     <p><strong>Reason:</strong> Presence of high severity finding(s).</p>
-    <p><strong>Combined Confidence:</strong> 0.7566</p>
-    <p><strong>Timestamp:</strong> 2025-11-03T13:57:09.837670Z</p>
-    <p><strong>Action Task ID:</strong> 8789078</p>
-    <p><strong>Audit ID:</strong> 8739e4ee-7bdc-4183-b25f-91239fdb3dbe</p>
+    <p><strong>Combined Confidence:</strong> 0.7093</p>
+    <p><strong>Timestamp:</strong> 2025-11-03T18:11:08.830321Z</p>
+    <p><strong>Action Task ID:</strong> 8792520</p>
+    <p><strong>Audit ID:</strong> 1fc6ad77-bb65-4f62-a2ae-35328ac5dbf1</p>
 </body>
 </html>

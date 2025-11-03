@@ -2,12 +2,24 @@
     "entryPoints": [
         {
             "filePath": "agent",
-            "uniqueId": "72ab6205-dedb-420b-9bc2-c93983e2e8c5",
+            "uniqueId": "6bfe65cc-7688-42c4-8a1d-34f9721102b5",
             "type": "agent",
             "input": {
                 "type": "object",
                 "properties": {
                     "topic": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "useremail": {
+                        "type": "string"
+                    },
+                    "filename": {
+                        "type": "string"
+                    },
+                    "record_id": {
                         "type": "string"
                     },
                     "retrieved_rules": {
@@ -63,7 +75,7 @@
         "resources": [
             {
                 "resource": "process",
-                "key": "shared.DeepComplianceProjects.Rpa.RPA.Workflow",
+                "key": "DeepComplianceProjects.Rpa.RPA.Workflow.shared",
                 "value": {
                     "name": {
                         "defaultValue": "DeepComplianceProjects.Rpa.RPA.Workflow",
@@ -83,8 +95,29 @@
                 }
             },
             {
+                "resource": "process",
+                "key": "DeepComplianceProjects.Rpa.DeepComliance_UpdateData.shared",
+                "value": {
+                    "name": {
+                        "defaultValue": "DeepComplianceProjects.Rpa.DeepComliance_UpdateData",
+                        "isExpression": false,
+                        "displayName": "Name"
+                    },
+                    "folderPath": {
+                        "defaultValue": "shared",
+                        "isExpression": false,
+                        "displayName": "Folder Path"
+                    }
+                },
+                "metadata": {
+                    "ActivityName": "invoke",
+                    "BindingsVersion": "2.2",
+                    "DisplayLabel": "FullName"
+                }
+            },
+            {
                 "resource": "bucket",
-                "key": "os.getenv(\"FOLDER_PATH\", \"Shared\").DeepComplianceBucket_Input",
+                "key": "DeepComplianceBucket_Input.os.getenv(\"FOLDER_PATH\", \"Shared\")",
                 "value": {
                     "name": {
                         "defaultValue": "DeepComplianceBucket_Input",
@@ -105,7 +138,7 @@
             },
             {
                 "resource": "bucket",
-                "key": "os.getenv(\"FOLDER_PATH\", \"Shared\").bucket_name",
+                "key": "bucket_name.os.getenv(\"FOLDER_PATH\", \"Shared\")",
                 "value": {
                     "name": {
                         "defaultValue": "bucket_name",
@@ -126,7 +159,7 @@
             },
             {
                 "resource": "bucket",
-                "key": "os.getenv(\"FOLDER_PATH\", None).bucket_name",
+                "key": "bucket_name.os.getenv(\"FOLDER_PATH\", None)",
                 "value": {
                     "name": {
                         "defaultValue": "bucket_name",
@@ -147,7 +180,7 @@
             },
             {
                 "resource": "bucket",
-                "key": "os.getenv(\"FOLDER_PATH\", \"Shared\").DeepComplianceBucket_Output",
+                "key": "DeepComplianceBucket_Output.os.getenv(\"FOLDER_PATH\", \"Shared\")",
                 "value": {
                     "name": {
                         "defaultValue": "DeepComplianceBucket_Output",
@@ -162,6 +195,27 @@
                 },
                 "metadata": {
                     "ActivityName": "upload",
+                    "BindingsVersion": "2.2",
+                    "DisplayLabel": "FullName"
+                }
+            },
+            {
+                "resource": "index",
+                "key": "index_name.os.getenv(\"FOLDER_PATH\", \"Shared\")",
+                "value": {
+                    "name": {
+                        "defaultValue": "index_name",
+                        "isExpression": true,
+                        "displayName": "Name"
+                    },
+                    "folderPath": {
+                        "defaultValue": "os.getenv(\"FOLDER_PATH\", \"Shared\")",
+                        "isExpression": true,
+                        "displayName": "Folder Path"
+                    }
+                },
+                "metadata": {
+                    "ActivityName": "search",
                     "BindingsVersion": "2.2",
                     "DisplayLabel": "FullName"
                 }

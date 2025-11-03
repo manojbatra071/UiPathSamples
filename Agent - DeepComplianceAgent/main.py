@@ -114,6 +114,14 @@ async def call_llm(prompt: str, system_prompt: Optional[str] = None) -> str:
 # ------------------ Data models ------------------
 class GraphState(BaseModel):
     topic: Optional[str] = None
+
+    username: Optional[str] = None
+
+    useremail: Optional[str] = None
+
+    filename: Optional[str] = "Supplier.docx"
+
+    record_id: Optional[str] = None
     # context-grounding results
     retrieved_rules: Optional[List[Any]] = None
     # LLM-produced findings
@@ -160,10 +168,11 @@ def safe_get_snippets(retrieved, n=3):
 # ------------------ Node: Read & Extract ------------------
 async def read_and_extract(state: GraphState) -> GraphState:
     logger.info("Read & Extract: starting document read.")
+    logger.info(f"Read & Extract: downloading file {state.filename} from bucket.")
     sdk = UiPath()
     sdk.buckets.download(
                     name="DeepComplianceBucket_Input",
-                    blob_file_path="Supplier.docx",
+                    blob_file_path=state.filename or "Supplier.docx",
                     destination_path="supplier.docx",
                     folder_path=os.getenv("FOLDER_PATH", "Shared"),
                 )
@@ -566,7 +575,7 @@ async def act_or_escalate(state: GraphState) -> GraphState:
             logger.info("Logging and setting monitor flag for this document.")
             task_id = None
         elif action == "escalate":
-            logger.info(f"the values are{decision.get("reason")}  {state.anomaly_score}")
+            #logger.info(f"the values are{decision.get("reason")}  {state.anomaly_score}")
             result_text = "\n\n".join(
                 f"Issue: {f['issue']}\nSeverity: {f['severity']}\nExplanation: {f['explanation']}"
                 for f in state.findings or []
@@ -581,12 +590,13 @@ async def act_or_escalate(state: GraphState) -> GraphState:
                     "Findings": result_text,
                     "AnomalyScore":  str(state.anomaly_score),
                     "UserReason" : "",
+                    "RecordId": state.record_id,
                 }
 
                 logger.info(f"Creating Action Center task with data: {json.dumps(action_data)[:1000]}")
 
                 # Optional app-specific fields (set via env if you want app-specific actions)
-                app_name = os.getenv("ACTION_APP_NAME","ComplianceReviewApp1")   # e.g., "ComplianceReviewApp"
+                app_name = os.getenv("ACTION_APP_NAME","DeepCompliance_Action")   # e.g., "ComplianceReviewApp"
                 #app_key = os.getenv("ACTION_APP_KEY","")     # or app key if you prefer
                 #assignee = os.getenv("ACTION_ASSIGNEE","")   # optional username/email to assign
 
@@ -594,19 +604,19 @@ async def act_or_escalate(state: GraphState) -> GraphState:
                 if hasattr(sdk, "actions") and callable(getattr(sdk.actions, "create", None)):
                     logger.info("Using UiPath SDK actions.create to create Action Center task.")
 
-
-
                     # synchronous create
                     task_obj = sdk.actions.create(
                         title= "Compliance review required-",
                         data=action_data,
                         app_name=app_name,
                         app_version=1,
-                        app_folder_path="Shared",
+                        app_folder_path="Shared/DeepComplianceProjects",
                     )
+
                     # returned object may be an object or dict
                     task_id = getattr(task_obj, "id", None) or (task_obj.get("id") if isinstance(task_obj, dict) else None)
                     logger.info(f"Created Action Center task with ID: {task_id}")
+
 
                 elif hasattr(sdk, "actions") and callable(getattr(sdk.actions, "create_async", None)):
                     # async create variant - call it and wait
@@ -794,6 +804,9 @@ async def generate_report(state: GraphState) -> GraphOutput:
                 )
 
     sdk.processes.invoke(name="DeepComplianceProjects.Rpa.RPA.Workflow", folder_path="shared", input_arguments={"FileName": state.audit_id })
+    sdk.processes.invoke(name="DeepComplianceProjects.Rpa.DeepComliance_UpdateData", folder_path="shared", input_arguments={"table_id": state.record_id, "ActionTaskId": state.action_task_id, "AuditId": state.audit_id,
+                                                                                                                             "AgentAction" : state.decided_action.get("action","")                                                                                                                            })
+
     return GraphOutput(report=content if content else "")
 
 
