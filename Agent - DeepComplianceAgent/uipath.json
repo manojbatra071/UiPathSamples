@@ -2,7 +2,7 @@
     "entryPoints": [
         {
             "filePath": "agent",
-            "uniqueId": "6bfe65cc-7688-42c4-8a1d-34f9721102b5",
+            "uniqueId": "098e44cc-629d-4e28-94dd-acc77e628cd5",
             "type": "agent",
             "input": {
                 "type": "object",
@@ -75,7 +75,7 @@
         "resources": [
             {
                 "resource": "process",
-                "key": "DeepComplianceProjects.Rpa.RPA.Workflow.shared",
+                "key": "shared.DeepComplianceProjects.Rpa.RPA.Workflow",
                 "value": {
                     "name": {
                         "defaultValue": "DeepComplianceProjects.Rpa.RPA.Workflow",
@@ -96,7 +96,7 @@
             },
             {
                 "resource": "process",
-                "key": "DeepComplianceProjects.Rpa.DeepComliance_UpdateData.shared",
+                "key": "shared.DeepComplianceProjects.Rpa.DeepComliance_UpdateData",
                 "value": {
                     "name": {
                         "defaultValue": "DeepComplianceProjects.Rpa.DeepComliance_UpdateData",
@@ -117,7 +117,7 @@
             },
             {
                 "resource": "bucket",
-                "key": "DeepComplianceBucket_Input.os.getenv(\"FOLDER_PATH\", \"Shared\")",
+                "key": "os.getenv(\"FOLDER_PATH\", \"Shared\").DeepComplianceBucket_Input",
                 "value": {
                     "name": {
                         "defaultValue": "DeepComplianceBucket_Input",
@@ -138,7 +138,7 @@
             },
             {
                 "resource": "bucket",
-                "key": "bucket_name.os.getenv(\"FOLDER_PATH\", \"Shared\")",
+                "key": "os.getenv(\"FOLDER_PATH\", \"Shared\").bucket_name",
                 "value": {
                     "name": {
                         "defaultValue": "bucket_name",
@@ -159,7 +159,7 @@
             },
             {
                 "resource": "bucket",
-                "key": "bucket_name.os.getenv(\"FOLDER_PATH\", None)",
+                "key": "os.getenv(\"FOLDER_PATH\", None).bucket_name",
                 "value": {
                     "name": {
                         "defaultValue": "bucket_name",
@@ -180,7 +180,7 @@
             },
             {
                 "resource": "bucket",
-                "key": "DeepComplianceBucket_Output.os.getenv(\"FOLDER_PATH\", \"Shared\")",
+                "key": "os.getenv(\"FOLDER_PATH\", \"Shared\").DeepComplianceBucket_Output",
                 "value": {
                     "name": {
                         "defaultValue": "DeepComplianceBucket_Output",
@@ -195,27 +195,6 @@
                 },
                 "metadata": {
                     "ActivityName": "upload",
-                    "BindingsVersion": "2.2",
-                    "DisplayLabel": "FullName"
-                }
-            },
-            {
-                "resource": "index",
-                "key": "index_name.os.getenv(\"FOLDER_PATH\", \"Shared\")",
-                "value": {
-                    "name": {
-                        "defaultValue": "index_name",
-                        "isExpression": true,
-                        "displayName": "Name"
-                    },
-                    "folderPath": {
-                        "defaultValue": "os.getenv(\"FOLDER_PATH\", \"Shared\")",
-                        "isExpression": true,
-                        "displayName": "Folder Path"
-                    }
-                },
-                "metadata": {
-                    "ActivityName": "search",
                     "BindingsVersion": "2.2",
                     "DisplayLabel": "FullName"
                 }
